@@ -1,0 +1,50 @@
+{
+  "name": "your-project-name",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "license": "AGPL-3.0-only",
+  "private": false,
+  "engines": {
+    "node": ">= 14.0.0",
+    "npm": ">= 6.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "your-repository-url"
+  },
+  "keywords": [],
+  "author": {
+    "name": "The Moon",
+    "email": "ghnguyen@umass.edu",
+    "url": "https://github.com/hoanggiapuamss/The-Moon"
+  },
+  "collaborators": [
+    {
+      "fullname": "Tri Cong Hoang",
+      "email": "tchoang@umass.edu",
+      "github-username": "ctriapr7"
+    },
+    {
+      "fullname": "Hung Truong",
+      "email": "hctruong@umass.edu",
+      "github-username": "htruon"
+    },
+    {
+      "fullname": "Giap Hoang Nguyen",
+      "email": "ghnguyen@umass.edu",
+      "github-username": "hoanggiapuamss"
+    }
+  ],
+  "scripts": {
+    "milestone-01": "http-server src/docs/milestone-01 -p 3000 -c-1 -o -s",
+    "validate-html": "html-validate src/**/*.html",
+    "prettier": "prettier --write 'src/**/*.{js,css,md}'"
+  },
+  "devDependencies": {
+    "html-validate": "^8.18.1",
+    "http-server": "^14.1.1",
+    "prettier": "^3.2.5"
+  }
+}

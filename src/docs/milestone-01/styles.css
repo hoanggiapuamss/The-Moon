@@ -1,0 +1,116 @@
+body {
+    display: grid;
+    grid-template-areas: 
+      "header"
+      "nav"
+      "main"
+      "footer";
+    grid-gap: 20px;
+    padding: 20px;
+  }
+
+/* Element Selector Rule */
+p {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  h1, h2, h3 {
+    color: #0275d8;
+  }
+  
+  /* ID Selector Rule */
+  #overview {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin: 20px 0;
+    border-left: 5px solid #0275d8;
+  }
+  
+  
+  /* Nested-Tag / Sub-Element Selector Rule */
+  nav a {
+    color: #0275d8;
+    text-decoration: none;
+    padding: 10px 15px;
+  }
+  
+  nav a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Pseudo-Class Selector Rule */
+  a:hover, a:focus {
+    color: #01549b;
+  }
+
+   /* Styling for the navigation bar to make it horizontally aligned */
+   nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  
+  
+  header, nav, main, footer {
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+  }
+  
+  
+  /* Enhancing the visual appeal of the team section */
+  #team ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  #team li {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+  }
+  
+  #team img {
+    margin-right: 15px;
+    border-radius: 50%;
+  }
+  
+  /* Javscript feature */
+  /* Container for the search box */
+#searchBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin-top: 20px; /* Adjust as needed, depending on your page layout */
+  }
+  
+  /* Styling the input field */
+  #keyword {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #0275d8; /* Blue border color to match the nav */
+    border-right: none; /* Remove right border where button meets input */
+    border-radius: 5px 0 0 5px; /* Rounded corners on the left side */
+    outline: none; /* Removes the default focus outline */
+    width: 240px; /* Adjust based on your design preference */
+  }
+  
+  /* Styling the highlight button */
+  #event-highlights {
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #0275d8; /* Blue background to match the nav */
+    color: white;
+    border: 2px solid #0275d8; /* Consistent with the input field */
+    border-radius: 0 5px 5px 0; /* Rounded corners on the right side */
+    cursor: pointer; /* Changes cursor to pointer on hover */
+    outline: none; /* Removes the default focus outline */
+  }
+  
+  #event-highlights:hover {
+    background-color: #01549b; /* Darker blue for hover effect */
+  }
+  
