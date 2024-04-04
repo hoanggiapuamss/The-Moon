@@ -114,3 +114,7 @@ p {
     background-color: #01549b; /* Darker blue for hover effect */
   }
   
+  .highlight {
+    background-color: yellow;
+  }
+  
