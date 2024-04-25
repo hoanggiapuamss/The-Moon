@@ -1,6 +1,6 @@
 import PouchDB from "pouchdb";
 
-const db = new PouchDB("counters");
+const db = new PouchDB("stock");
 
 /**
  * Asynchronously saves a new counter to the database with a specified name and
@@ -15,7 +15,7 @@ const db = new PouchDB("counters");
  * @throws {Error} - Throws an error if the operation fails, e.g., due to
  * database connectivity issues.
  */
-export async function saveCounter(name, count) {
+export async function saveStock(name, count) {
   await db.put({ _id: name, count });
 }
 
@@ -32,7 +32,7 @@ export async function saveCounter(name, count) {
  * @throws {Error} - Throws an error if the operation fails, e.g., the counter
  * does not exist or database issues.
  */
-export async function modifyCounter(doc) {
+export async function modifyStock(doc) {
   await db.put(doc);
 }
 
@@ -45,7 +45,7 @@ export async function modifyCounter(doc) {
  * @throws {Error} - Throws an error if the counter cannot be found or if there
  * is a database issue.
  */
-export async function loadCounter(name) {
+export async function loadStock(name) {
   const counter = await db.get(name);
   return counter;
 }
@@ -60,7 +60,7 @@ export async function loadCounter(name) {
  * @throws {Error} - Throws an error if the counter cannot be removed, e.g., it
  * does not exist or due to database issues.
  */
-export async function removeCounter(name) {
+export async function removeStock(name) {
   db.remove(name);
 }
 
@@ -73,7 +73,7 @@ export async function removeCounter(name) {
  * @throws {Error} - Throws an error if there is a problem accessing the
  * database.
  */
-export async function loadAllCounters() {
+export async function loadAllStocks() {
   const result = await db.allDocs({ include_docs: true });
   return result.rows.map((row) => row.doc);
 }

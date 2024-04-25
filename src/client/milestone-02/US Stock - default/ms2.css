@@ -7,28 +7,72 @@ body, html {
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
-
+/************************************************ STYLE NAVIGATION AND LOGO ***********************************************/
 nav {
     background-color: #333;
-    color: white;
-    padding: 10px;
-    text-align: center;
-}
-
-nav a {
-    color: white;
-    padding: 12px 20px;
-    text-decoration: none;
-    font-size: 18px;
-    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    /* Ensure the nav bar has a minimum height if needed */
+    min-height: 60px;
+    z-index: 10;
+    position: relative; /* Establishes a positioning context for absolute positioning */
 }
 
 nav a:hover {
     background-color: #555;
 }
 
+#logo {
+    position: absolute;
+    left: 0; /* Aligns the logo to the left side of the navbar */
+    top: 50%; /* Aligns the logo to the vertical middle of the navbar */
+    transform: translateY(-50%); /* Ensures the logo is centered vertically */
+    z-index: 11; /* Ensures the logo sits above the navbar */
+}
+
+#logo img {
+    height: 5vh; /* Sets the height relative to the viewport height */
+    width: auto; /* Keeps the aspect ratio of the image */
+}
+
+#nav-links {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+    list-style-type: none; /* In case it's an unordered list */
+}
+
+#nav-links a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: white;
+    /* Your additional link styles here */
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 600px) {
+    #logo img {
+        height: 10vw; /* Larger percentage of the viewport width for smaller screens */
+        max-height: 50px; /* Adjust max-height as needed */
+    }
+
+    /* Adjust nav links for smaller screens if necessary */
+    #nav-links {
+        flex-direction: column;
+    }
+}
+/***************************************************************************************************************************/
 #landing-page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9; /* Lower z-index to sit below the logo */
     text-align: center;
     color: white;
     height: 100%;
@@ -42,7 +86,7 @@ nav a:hover {
     display: flex; /* Set the display to flex */
     align-items: center; /* Align items vertically in the center */
     justify-content: center; /* Align items horizontally in the center */
-    height: 100vh; /* Set the height to fill the screen */
+    flex-direction: column;
 }
 
 #comment-start {
@@ -53,13 +97,15 @@ nav a:hover {
 
 .view {
     display: none;
-    padding: 20px;
     min-height: 400px;
     background-color: #f4f4f4;
+    width: 100vw;
+    height: 100vh;
 }
 
 #views {
     display: none;
+    position: relative;
 }
 
 footer {
@@ -71,16 +117,12 @@ footer {
     bottom: 0;
     width: 100%;
 }
-/**********************************************LOGO LANDING PAGE*****************************************************/
-#logo {
-    float: left; /* Aligns the logo to the left */
-    cursor: pointer; /* Changes the cursor to indicate it's clickable */
-}
 
-#logo img {
-    padding: 12px 20px;
-    height: 20px;
+#USStocksView{
+    overflow: scroll;
 }
+/*********************************************************************************************************************/
+
 /**********************************************US STOCKS VIEW*****************************************************/
 .crypto-table {
     width: 100%;
@@ -89,8 +131,7 @@ footer {
   }
   
   .crypto-table th, .crypto-table td {
-    border: 1px solid #ddd;
-    text-align: left;
+    text-align: right;
     padding: 8px;
   }
   
@@ -115,7 +156,145 @@ footer {
     color: red;
   }
   
-#USStocksView{
-    width: 100vh;
-    height: 100vh;
+/******************************************************Trading View********************************************************/
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
+
+#chart{
+    width: 100vw;
+    height: 93.5%; /*ratio with the footer*/
+    position: absolute;
+}
+
+#TradingView{
+    height: 100vh; /* Full height of the viewport */
+    width: 100vw; /* Full width of the viewport */
+}
+
+/***********************************************************COMMUNITY********************************************************/
+/* Community Section General Styles */
+/*render user input*/
+.user-input-container {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #ccc;
+    border-radius: 50%;
+    margin-right: 10px;
+    /* Add the background-image with the path to the user's profile picture if available */
+  }
+  
+  .input-container {
+    flex-grow: 1;
+  }
+  
+  .text-input {
+    width: 100%;
+    border: none;
+    padding: 10px;
+  }
+  
+  .sentiment-container {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+  }
+  
+  .bullish-button, .bearish-button {
+    border: none;
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    /* Add color styling for buttons */
+  }
+  
+  .bullish-button {
+    color: green;
+  }
+  
+  .bearish-button {
+    color: red;
+  }
+  
+  .sentiment-icon {
+    /* Style or add an icon */
+  }
+  
+  .post-button {
+    padding: 10px 20px;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+/*render other users posts*/  
+.post-container {
+    background: #fff;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .user-avatar {
+    background: gray; /* Placeholder for user avatar image */
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .user-name {
+    font-weight: bold;
+  }
+  
+  .user-handle {
+    color: #555;
+    margin-left: 4px;
+  }
+  
+  .post-age {
+    margin-left: auto;
+    color: #777;
+  }
+  
+  .post-content {
+    margin-bottom: 15px;
+  }
+  
+  .post-image {
+    width: 100%;
+    height: auto; /* Or a fixed height */
+    background: #ddd; /* Placeholder for post image */
+    margin-bottom: 15px;
+  }
+  
+  .interaction-icons {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 15px;
+  }
+  
+  .social-stats {
+    font-size: 14px;
+    color: #555;
+  }
+  

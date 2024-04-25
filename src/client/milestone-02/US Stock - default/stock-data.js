@@ -1,58 +1,95 @@
-document.addEventListener('DOMContentLoaded', () =>
-    fetchStockData());
+//stocks fetched
+export let stocks = [];
 
-function fetchStockData() {
-    // Note: The URL and headers below are placeholders and should be replaced with your actual API call details.
-    fetch('https://api.polygon.io/v3/reference/tickers?market=stocks&date=2024-04-23&active=true&limit=5&apiKey=jRMYcO5SdtZZ_dsDfetXJcJRbHXADrOP')
-    .then(response => response.json())
-    .then(data => {
-        const stock_data = data['results']
-        populateStockData1(stock_data);
-    })
-    .catch(error => console.error('Error fetching stock data:', error));
-}
+export async function fetchStockData() {
+    let today = new Date();
+    const url = `https://api.polygon.io/v3/reference/tickers?type=CS&market=stocks&date=${today.toISOString().split("T")[0]}&active=true&limit=5&sort=cik&apiKey=jRMYcO5SdtZZ_dsDfetXJcJRbHXADrOP`;
+  
+    try {
+      const response = await fetch(url);  // Await the fetch request
+      const data = await response.json(); // Await the JSON parsing of the response
+      const stock_data = data["results"];
+      populateStockData1(stock_data);     // Assuming this function is synchronous
+    } catch (error) {
+      console.error("Error fetching stock data:", error);
+    }
+  }
+  
 
 async function populateStockData1(stockData) {
-    const stocksContainer = document.getElementById('stocks-container');
-    const stockTemplate = document.getElementById('stock-template').content;
+  let today = new Date();
+  let dateTd = today.toISOString().split("T")[0];
+  //yesterday
+  let today1 = new Date();
+  today1.setDate(today1.getDate() - 1); // Subtract one day from the current date
+  let yesterday = today1.toISOString().split("T")[0];
+  //1 week ago
+  let today2 = new Date();
+  today2.setDate(today2.getDate() - 7); // Subtract one day from the current date
+  let a_week = today2.toISOString().split("T")[0];
 
-    for (const stock of stockData) {
-        const stockNode = stockTemplate.cloneNode(true);
-        stockNode.querySelector('.name').textContent = await stock.name || '';
-        stockNode.querySelector('.market').textContent = await stock.ticker || '';
+  for (const stock of stockData) {
+    //stock object of each stock has name, ticker, stock price, %1h, %24h, %7d, marketcap, volume(24h)
+    const stockObj = {};
+    stockObj.name = (await stock.name);
+    stockObj.ticker = (await stock.ticker) ;
 
-        await new Promise(resolve => setTimeout(resolve, 12000));
+    await new Promise((resolve) => setTimeout(resolve, 12000));
+    try {
+      
+      //stock price (make this change dynametically every 12 secs (cache)) (hazard data structure)
+      const ticker = stock.ticker;
+      const priceRealTime = await fetch(
+        `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${yesterday}/${dateTd}?adjusted=true&sort=asc&limit=60&apiKey=jRMYcO5SdtZZ_dsDfetXJcJRbHXADrOP`
+      );
+      const priceDataRTJSON = await priceRealTime.json();
+      const priceDataRealTime = priceDataRTJSON.results[0].c ;
+      console.log(priceDataRealTime);
+      stockObj.price = priceDataRealTime;
 
-        try {
-            //stock price
-            const ticker = stock.ticker;
-            const priceDataResponse = await fetch(`https://api.polygon.io/v2/aggs/ticker/${ticker}/range/7/day/2024-04-16/2024-04-23?adjusted=true&sort=asc&limit=120&apiKey=jRMYcO5SdtZZ_dsDfetXJcJRbHXADrOP`)
-            const priceData = await priceDataResponse.json();   
-            stockNode.querySelector('.price').textContent = priceData.results[1].c || '';
+      //1h%
+    //   const price1Hour = await fetch(
+    //     `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/3/day/${yesterday}/${dateTd}?adjusted=true&sort=asc&limit=60&apiKey=jRMYcO5SdtZZ_dsDfetXJcJRbHXADrOP`
+    //   );
+    //   const priceData1HJSON = await price1Hour.json();
+    //   const priceData1H = priceData1HJSON.results[0].c ;
+    //   stockObj.change1h =
+    //     ((priceData1H - priceDataRealTime) / priceDataRealTime) * 100 ;
 
-            //Market Cap
-            const curr_price = priceData.results[1].c
-            const marketDataResponse = await fetch(`https://api.polygon.io/v3/reference/tickers/${ticker}?date=2024-04-23&apiKey=jRMYcO5SdtZZ_dsDfetXJcJRbHXADrOP`)
-            const marketData = await marketDataResponse.json();
-            stockNode.querySelector('.cap').textContent = marketData['results']['market_cap']? marketData['results']['market_cap'] : marketData['results']['share_class_shares_outstanding'] * curr_price;
+      //24h%
+    //   const price24Hour = await fetch(
+    //     `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/3/day/${yesterday}/${dateTd}?adjusted=true&sort=asc&limit=60&apiKey=jRMYcO5SdtZZ_dsDfetXJcJRbHXADrOP`
+    //   );
+    //   const priceData24HJSON = await price24Hour.json();
+    //   const priceData24H = priceData24HJSON.results[0].c ;
+    //   stockObj.change24h =
+    //     ((priceData24H - priceDataRealTime) / priceDataRealTime) * 100 ;
 
-            //last 7 days percentage
-            const prev_price = priceData.results[0].c
-            const delta = curr_price - prev_price;
-            const percentage = (delta/prev_price)*100
-            stockNode.querySelector('.percentage-week').textContent = percentage
-        }catch (error){
-            console.error('Error fetching stock data:', error);
-        }
-        
-       
-        
+      //Volumne (24h)
+      stockObj.volume24h = priceDataRTJSON.results[0].v ;
 
-        
+      //7day%
+      const price1week = await fetch(
+        `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/7/day/${a_week}/${dateTd}?adjusted=true&sort=asc&limit=60&apiKey=jRMYcO5SdtZZ_dsDfetXJcJRbHXADrOP`
+      );
+      const priceData1weekJSON = await price1week.json();
+      const priceData1week = priceData1weekJSON.results[0].c ;
+      stockObj.change7d =
+        ((priceData1week - priceDataRealTime) / priceDataRealTime) * 100 ;
 
-
-
-        stocksContainer.appendChild(stockNode);
+      //Market Cap (OK)
+      const curr_price = priceDataRealTime.results[1].c;
+      const marketDataResponse = await fetch(
+        `https://api.polygon.io/v3/reference/tickers/${ticker}?date=${dateTd}&apiKey=jRMYcO5SdtZZ_dsDfetXJcJRbHXADrOP`
+      );
+      const marketData = await marketDataResponse.json();
+      stockObj.marketCap = marketData["results"]["market_cap"]
+        ? marketData["results"]["market_cap"]
+        : marketData["results"]["share_class_shares_outstanding"] * curr_price;
+    } catch (error) {
+      console.error("Error fetching stock data:", error);
     }
+    console.log(stockObj);
+    stocks.push(stockObj);
+  }
 }
-
