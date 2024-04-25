@@ -1,0 +1,121 @@
+/************************************************ MAIN PAGE LANDING PAGE ***********************************************/
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+nav {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    padding: 12px 20px;
+    text-decoration: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+nav a:hover {
+    background-color: #555;
+}
+
+#landing-page {
+    text-align: center;
+    color: white;
+    height: 100%;
+    width: 100%;
+    padding: 50px 20px;
+    background-image: url("https://www.worldatlas.com/upload/5b/c5/7c/cf7ebff1-7d35-4d0f-9f73-95b45f45880b.jpeg");
+    background-size: cover;   /* Cover the entire div area */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+
+    display: flex; /* Set the display to flex */
+    align-items: center; /* Align items vertically in the center */
+    justify-content: center; /* Align items horizontally in the center */
+    height: 100vh; /* Set the height to fill the screen */
+}
+
+#comment-start {
+    max-width: 80vh; /* Limit the width of the content */
+    padding: auto; /* Add padding around the text */
+    font-size:x-large;
+}
+
+.view {
+    display: none;
+    padding: 20px;
+    min-height: 400px;
+    background-color: #f4f4f4;
+}
+
+#views {
+    display: none;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+/**********************************************LOGO LANDING PAGE*****************************************************/
+#logo {
+    float: left; /* Aligns the logo to the left */
+    cursor: pointer; /* Changes the cursor to indicate it's clickable */
+}
+
+#logo img {
+    padding: 12px 20px;
+    height: 20px;
+}
+/**********************************************US STOCKS VIEW*****************************************************/
+.crypto-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .crypto-table th, .crypto-table td {
+    border: 1px solid #ddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  .crypto-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .crypto-table td {
+    background-color: #fff;
+  }
+  
+  .crypto-table tr:nth-child(odd) {
+    background-color: #f9f9f9;
+  }
+  
+  /* Styles for positive and negative changes */
+  .crypto-table .positive {
+    color: green;
+  }
+  
+  .crypto-table .negative {
+    color: red;
+  }
+  
+#USStocksView{
+    width: 100vh;
+    height: 100vh;
+}

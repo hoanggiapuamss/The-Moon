@@ -2,18 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Multi-View UI Example</title>
+    <title>The Moon</title>
+    <link rel="stylesheet" href="ms2.css">
+    <script src="ms2.js"></script>
 </head>
 <body>
     <nav>
+        <div id="logo">
+            <!-- Replace with your actual logo image if you have one -->
+            <img src="../assessts/Astronomy_(4).jpg" alt="Logo">
+            <!-- If you don't have an image, you can use text as your logo -->
+            <!-- <span>The Moon</span> -->
+        </div>
         <a href="#" id="USStocksLink">US Stocks</a>
         <a href="#" id="TVLink">Trading View</a>
         <a href="#" id="communityLink">Community</a>
     </nav>
 
+    <div id="landing-page">
+        <div id="comment-start">
+            <h1>Welcome to Our The Moon</h1>
+            <p>Select a view from the navigation menu to get started.</p>
+        </div>
+    </div>
+
     <div id="views">
-        <div id="USStocksView" class="view">
-            <iframe src="D:\College\Junior\Spring\CS 326\PROJECT\USS.html"></iframe>
+        <div id="USStocksView" class="view" style="display: none;">
+            <!-- US Stocks content -->
         </div>
         <div id="TradingView" class="view" style="display: none;">
             <!-- TradingView content -->

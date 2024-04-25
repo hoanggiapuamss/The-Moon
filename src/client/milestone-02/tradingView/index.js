@@ -12,7 +12,7 @@ new TradingView.widget(
         "withdateranges": true,
         "hide_side_toolbar": false,
         "allow_symbol_change": true,
-        "details": true,
+        "details": false,
         "hotlist": true,
         "calendar": true,
         "studies": [
