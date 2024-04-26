@@ -175,126 +175,68 @@ footer {
 }
 
 /***********************************************************COMMUNITY********************************************************/
-/* Community Section General Styles */
-/*render user input*/
-.user-input-container {
-    display: flex;
-    align-items: center;
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .profile-icon {
-    width: 40px;
-    height: 40px;
-    background-color: #ccc;
-    border-radius: 50%;
-    margin-right: 10px;
-    /* Add the background-image with the path to the user's profile picture if available */
-  }
-  
-  .input-container {
-    flex-grow: 1;
-  }
-  
-  .text-input {
-    width: 100%;
-    border: none;
-    padding: 10px;
-  }
-  
-  .sentiment-container {
-    display: flex;
-    align-items: center;
-    margin-right: 10px;
-  }
-  
-  .bullish-button, .bearish-button {
-    border: none;
-    padding: 5px 10px;
-    margin: 0 5px;
-    cursor: pointer;
-    /* Add color styling for buttons */
-  }
-  
-  .bullish-button {
-    color: green;
-  }
-  
-  .bearish-button {
-    color: red;
-  }
-  
-  .sentiment-icon {
-    /* Style or add an icon */
-  }
-  
-  .post-button {
-    padding: 10px 20px;
-    background-color: blue;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-/*render other users posts*/  
-.post-container {
-    background: #fff;
-    border-radius: 4px;
-    margin-bottom: 20px;
-    padding: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
-  
-  .post-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-  }
-  
-  .user-avatar {
-    background: gray; /* Placeholder for user avatar image */
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-  }
-  
-  .user-name {
-    font-weight: bold;
-  }
-  
-  .user-handle {
-    color: #555;
-    margin-left: 4px;
-  }
-  
-  .post-age {
-    margin-left: auto;
-    color: #777;
-  }
-  
-  .post-content {
-    margin-bottom: 15px;
-  }
-  
-  .post-image {
-    width: 100%;
-    height: auto; /* Or a fixed height */
-    background: #ddd; /* Placeholder for post image */
-    margin-bottom: 15px;
-  }
-  
-  .interaction-icons {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 15px;
-  }
-  
-  .social-stats {
-    font-size: 14px;
-    color: #555;
-  }
-  
+#CommunityView{
+  margin: 20px 20px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+h1, h4, ol {
+  margin: 0;
+  padding-left: 20px;
+}
+
+p {
+  margin: 5px 0;
+}
+
+.top-bar {
+  background-color: skyblue;
+}
+textarea{
+  width: 80%;
+  height: 80px;
+  margin-left: 20px;
+}
+
+button #add-comment{
+  display: block;
+  margin: 10px 0;
+}
+
+.comments{
+  margin: 40px 0;
+  padding-left: 20px;
+}
+
+.comment{
+  margin: 20px 0;
+}
+
+.main {
+  background-color: #F6F6EF;
+  padding: 10px 40px;
+}
+
+.row {
+  padding: 5px 0;
+}
+
+.bottom, .top-comment {
+  display: flex;
+  color: grey;
+  font-size: 12px;
+  margin-left: 20px;
+}
+
+.timestamp{
+  padding-right: 10px;
+}
+
+.comment-ts{
+  padding-right: 10px;
+}
+

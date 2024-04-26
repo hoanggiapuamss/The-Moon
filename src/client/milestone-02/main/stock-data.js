@@ -34,13 +34,13 @@ async function populateStockData1(stockData) {
     stockObj.name = (await stock.name);
     stockObj.ticker = (await stock.ticker) ;
 
-    await new Promise((resolve) => setTimeout(resolve, 12000));
+    await new Promise((resolve) => setTimeout(resolve, 60000));
     try {
       
       //stock price (make this change dynametically every 12 secs (cache)) (hazard data structure)
       const ticker = stock.ticker;
       const priceRealTime = await fetch(
-        `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${yesterday}/${dateTd}?adjusted=true&sort=asc&limit=60&apiKey=jRMYcO5SdtZZ_dsDfetXJcJRbHXADrOP`
+        `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${yesterday}/${yesterday}?adjusted=true&sort=asc&limit=60&apiKey=jRMYcO5SdtZZ_dsDfetXJcJRbHXADrOP`
       );
       const priceDataRTJSON = await priceRealTime.json();
       const priceDataRealTime = priceDataRTJSON.results[0].c ;
@@ -75,12 +75,12 @@ async function populateStockData1(stockData) {
       const priceData1weekJSON = await price1week.json();
       const priceData1week = priceData1weekJSON.results[0].c ;
       stockObj.change7d =
-        ((priceData1week - priceDataRealTime) / priceDataRealTime) * 100 ;
+        ((priceData1week - priceDataRealTime) / priceData1week) * 100 ;
 
       //Market Cap (OK)
-      const curr_price = priceDataRealTime.results[1].c;
+      const curr_price = priceDataRealTime.results[0].c;
       const marketDataResponse = await fetch(
-        `https://api.polygon.io/v3/reference/tickers/${ticker}?date=${dateTd}&apiKey=jRMYcO5SdtZZ_dsDfetXJcJRbHXADrOP`
+        `https://api.polygon.io/v3/reference/tickers/${ticker}?date=${yesterday}&apiKey=jRMYcO5SdtZZ_dsDfetXJcJRbHXADrOP`
       );
       const marketData = await marketDataResponse.json();
       stockObj.marketCap = marketData["results"]["market_cap"]

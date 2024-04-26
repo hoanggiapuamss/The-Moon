@@ -1,6 +1,6 @@
 import PouchDB from "pouchdb";
 
-const db = new PouchDB("stock");
+const stockDB = new PouchDB("stock");
 
 /**
  * Asynchronously saves a new counter to the database with a specified name and
@@ -16,7 +16,7 @@ const db = new PouchDB("stock");
  * database connectivity issues.
  */
 export async function saveStock(name, count) {
-  await db.put({ _id: name, count });
+  await stockDB.put({ _id: name, count });
 }
 
 /**
@@ -33,7 +33,7 @@ export async function saveStock(name, count) {
  * does not exist or database issues.
  */
 export async function modifyStock(doc) {
-  await db.put(doc);
+  await stockDB.put(doc);
 }
 
 /**
@@ -46,7 +46,7 @@ export async function modifyStock(doc) {
  * is a database issue.
  */
 export async function loadStock(name) {
-  const counter = await db.get(name);
+  const counter = await stockDB.get(name);
   return counter;
 }
 
@@ -61,7 +61,7 @@ export async function loadStock(name) {
  * does not exist or due to database issues.
  */
 export async function removeStock(name) {
-  db.remove(name);
+  stockDB.remove(name);
 }
 
 /**
@@ -74,6 +74,6 @@ export async function removeStock(name) {
  * database.
  */
 export async function loadAllStocks() {
-  const result = await db.allDocs({ include_docs: true });
+  const result = await stockDB.allDocs({ include_docs: true });
   return result.rows.map((row) => row.doc);
 }
