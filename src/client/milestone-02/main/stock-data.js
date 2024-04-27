@@ -1,5 +1,70 @@
-//stocks fetched
-export let stocks = [];
+//stocks fetched (mocking)
+export let stocks = [
+  {
+    "name": "Microsoft Corporation",
+    "ticker": "MSFT",
+    "price": 406.32,
+    "volume24h": "29.695M",
+    "change7d": "+1.82%",
+    "marketCap": "3.019 T USD"
+  },
+  {
+    "name": "Apple Inc.",
+    "ticker": "AAPL",
+    "price": 169.30,
+    "volume24h": "44.838 M",
+    "change7d": "-0.35%",
+    "marketCap": "2.614 T USD"
+  },
+  {
+    "name": "NVIDIA Corporation",
+    "ticker": "NVDA",
+    "price": 877.35,
+    "volume24h": "55.1 M",
+    "change7d": "+6.18%",
+    "marketCap": "2.193 T USD"
+  },
+  {
+    "name": "Alphabet Inc.",
+    "ticker": "GOOG",
+    "price": 174.69,
+    "volume24h": "56.501M",
+    "change7d": "+9.97%",
+    "marketCap": "2.145 T USD"
+  },
+  {
+    "name": "Amazon.com, Inc.",
+    "ticker": "AMZN",
+    "price": 179.62,
+    "volume24h": "29.695M",
+    "change7d": "+1.82%",
+    "marketCap": "3.019 T USD"
+  },
+  {
+    "name": "Meta Plartforms, Inc.",
+    "ticker": "META",
+    "price": 443.29,
+    "volume24h": "29.695M",
+    "change7d": "+1.82%",
+    "marketCap": "3.019 T USD"
+  },
+  {
+    "name": "Tesla, Inc.",
+    "ticker": "TSLA",
+    "price": 168.29,
+    "volume24h": "29.695M",
+    "change7d": "+1.82%",
+    "marketCap": "3.019 T USD"
+  },
+  {
+    "name": "Netflix, Inc.",
+    "ticker": "NFLX",
+    "price": 561.23,
+    "volume24h": "29.695M",
+    "change7d": "+1.82%",
+    "marketCap": "3.019 T USD"
+  },
+];
 
 export async function fetchStockData() {
     let today = new Date();

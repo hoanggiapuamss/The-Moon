@@ -33,8 +33,8 @@ export function renderStockList(element, stocksData) {
             <tr>
               <th>#</th>
               <th>Name</th>
-              <th>Price</th>
-              <th>7d %</th>
+              <th>Price (USD)</th>
+              <th>change %</th>
               <th>Market Cap</th>
               <th>Volume (24h)</th>
             </tr>
@@ -55,6 +55,7 @@ export function renderStockList(element, stocksData) {
 
   // Add new data to the tbody
   stocksData.forEach((stock, i) => {
+    console.log(stock.marketCap);
     const row = document.createElement("tr");
     row.innerHTML = `
             <td>${i + 1}</td>

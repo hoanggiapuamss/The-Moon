@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   /////////////////////////////////////////////Rebder Stock Lists//////////////////////////////////////////////////
-  fetchStockData(); //fetch Stock Data
+  // fetchStockData(); //fetch Stock Data
   // Sample data, this should be replaced with actual data from your source
   //   const stocksData = [
   //     {
@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       event.preventDefault(); // Prevent the default anchor behavior
       renderStockList(usStocksView, stocks);
       switchView("USStocksView"); // Call the function to switch views
+
     });
   //////////////////////////////////////////////Rebder Stock Lists//////////////////////////////////////////////////
   /////////////////////////////////////////////Trading View////////////////////////////////////////////////////////
@@ -52,16 +53,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     switchView("TradingView");
   });
   ////////////////////////////////////////////////////COMMUNITY//////////////////////////////////////////////////////
-  if(!getThreadsFromLocalStorage()){
+  if(getThreadsFromLocalStorage()==null){
     initializeThreads(threads);
   }
   //threads filer
-  threads.forEach((element)=>{
-    if(!element.id){
-      threads.pop(element);
-    }
-  })
-  saveThreadsToLocalStorage(threads);
+  // threads.forEach((element)=>{
+  //   if(!element.id){
+  //     threads.pop(element);
+  //   }
+  // })
+  // saveThreadsToLocalStorage(threads);
 
   document
     .getElementById("communityLink")

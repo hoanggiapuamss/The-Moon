@@ -1,7 +1,7 @@
 export var threads = [
     {
       id: 1,
-      title: "Thread 1",
+      title: "NVIDIA IS GOING UP",
       author: "MESSI",
       date: Date.now(),
       content: "Thread content",
@@ -20,7 +20,7 @@ export var threads = [
     },
     {   
         id: 2,
-        title: "Thread 2",
+        title: "JP MORGAIN HAS BANKRUPT",
         author: "ZAP",
         date: Date.now(),
         content: "Thread content",
