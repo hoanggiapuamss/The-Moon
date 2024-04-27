@@ -34,7 +34,7 @@ To get started with this project, clone the repository to your local machine or 
 
 bash
 Copy code
-git clone https://yourrepository/TheMoonWebsite.git
+git clone https://github.com/hoanggiapuamss/The-Moon
 Navigate into the project directory:
 
 bash
