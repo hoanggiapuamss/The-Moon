@@ -39,17 +39,19 @@
   ],
   "scripts": {
     "milestone-01": "http-server src/docs/milestone-01 -p 3000 -c-1 -o -s",
-    "milestone-02": "http-server src/client/milestone-02 -p 3001 -c-1 -o -s",
+    "milestone-02": "http-server src/client/milestone-02/main/ms2.html -p 3001 -c-1 -o -s",
     "validate-html": "html-validate src/**/*.html",
     "prettier": "prettier --write 'src/**/*.{js,css,md}'"
   },
   "devDependencies": {
     "html-validate": "^8.18.1",
     "http-server": "^14.1.1",
-    "prettier": "^3.2.5"
+    "prettier": "^3.2.5",
+    "prettier-plugin-tailwindcss": "^0.5.14",
+    "tailwindcss": "^3.4.3"
   },
   "dependencies": {
-    "pouchdb": "^8.0.1",
-    "tailwindcss": "^3.4.3"
+    "express": "^4.19.2",
+    "pouchdb": "^8.0.1"
   }
 }

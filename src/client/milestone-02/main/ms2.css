@@ -218,6 +218,7 @@ button #add-comment{
 
 .main {
   background-color: #F6F6EF;
+  display: grid;
   padding: 10px 40px;
 }
 

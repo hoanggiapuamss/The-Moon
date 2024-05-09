@@ -1,4 +1,9 @@
-import {updateThreadComments, saveThreadsToLocalStorage, getThreadsFromLocalStorage, initializeThreads} from "../db/community.js";
+import {
+  updateThreadComments,
+  saveThreadsToLocalStorage,
+  getThreadsFromLocalStorage,
+  initializeThreads,
+} from "../db/community.js";
 
 export function switchView(viewIdToShow) {
   const views = document.querySelectorAll(".view");
@@ -59,7 +64,7 @@ export function renderStockList(element, stocksData) {
     const row = document.createElement("tr");
     row.innerHTML = `
             <td>${i + 1}</td>
-            <td>${stock.name} ${stock.ticker}</td>
+            <td>${stock.name} <span class="clickable-ticker">${stock.ticker}</span></td>
             <td>${stock.price}</td>
             <td>${stock.change7d}</td>
             <td>${stock.marketCap}</td>
@@ -70,10 +75,10 @@ export function renderStockList(element, stocksData) {
 }
 
 //render trading view (render with symbol)
-export function renderTV() {
+export function renderTV(ticker) {
   new TradingView.widget({
     autosize: true,
-    symbol: "NASDAQ:AAL",
+    symbol: `NASDAQ:${ticker}`,
     interval: "240",
     timezzone: "Etc/Utc",
     theme: "dark",
@@ -100,12 +105,28 @@ export function renderTV() {
 //community render user post
 export function renderPost(element) {
   const postHTML = `
-  <div class="top-bar">
+  <div class="top-bar bg-blue-300 font-sans">
     <h1>The Moon Forum</h1>
   </div>
+
+  <div id="user-spot" class="p-4">
+  <h2 class="text-xl mb-4">Create a New Thread</h2>
+  <form id="thread-form" class="space-y-4">
+    <div>
+      <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+      <input type="text" id="title" name="title" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" required>
+    </div>
+    <div>
+      <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
+      <textarea id="content" name="content" rows="4" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" required></textarea>
+    </div>
+    <button id="post-thread" type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">Submit</button>
+  </form>
+</div>
+
   <div class="main">
-    <ol>
-    </ol>
+    <div id="threads" class="grid grid-cols-3">
+    </div>
 </div>
   `;
   element.innerHTML = "";
@@ -176,25 +197,25 @@ export function renderThreadPost(element, thread) {
     };
 
     comments.innerHTML += addComment(newComment);
-    txt.value="";
+    txt.value = "";
     // Update the local storage
     updateThreadComments(thread.id, newComment);
   });
 }
 
 export function renderThread(threadData) {
-  var container = document.querySelector("ol");
+  var container = document.querySelector("#threads");
   for (let thread of threadData) {
     var html = `
-          <li class="row">
+          <div class="row">
             <a id="${thread.id}" class="thread-link">
-              <h4 class="title">${thread.title}</h4>
+              <h4 class="title italic hover:not-italic">${thread.title}</h4>
             </a>
             <div class="bottom">
               <p class="timestamp">${new Date(thread.date).toLocaleString()}</p>
               <p class="comment-count">${thread.comments.length} comments</p>
             </div>
-          </li>
+          </div>
         `;
     container.insertAdjacentHTML("beforeend", html);
   }

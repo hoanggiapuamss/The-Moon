@@ -36,7 +36,45 @@ export var threads = [
             content: "Hey to you too"
           }
         ]
-      }
+      },
+      {
+        id: 3,
+        title: "Tech Stocks Rally Today",
+        author: "TechInvestor",
+        date: Date.now(),
+        content: "Major gains in tech sector today.",
+        comments: [
+            {
+                author: "SiliconFan",
+                date: Date.now(),
+                content: "Great news for our portfolio!"
+            },
+            {
+                author: "GrowthHawk",
+                date: Date.now(),
+                content: "Riding the wave!"
+            }
+        ]
+    },
+    {
+        id: 4,
+        title: "International Markets React to Trade Talks",
+        author: "GlobalTrader",
+        date: Date.now(),
+        content: "Trade negotiations impact global markets.",
+        comments: [
+            {
+                author: "WorldWatcher",
+                date: Date.now(),
+                content: "Always keeping an eye on these developments."
+            },
+            {
+                author: "EconBuff",
+                date: Date.now(),
+                content: "Economics at play!"
+            }
+        ]
+    }
   ];
   //   ///Local storage part to store user states
 //  var defaultThreads = threads;
