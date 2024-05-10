@@ -1,6 +1,12 @@
-import express from 'express';
-import cors from 'cors';
-import Database from './database.js';
+import express, { response } from "express";
+import cors from "cors";
+import Database from "./database.js";
+// import {
+//   updateThreadComments,
+//   saveThreadsToLocalStorage,
+//   getThreadsFromLocalStorage,
+//   initializeThreads,
+// } from "../client/milestone-02/db/community.js";
 
 const app = express();
 const port = 3000;
@@ -11,12 +17,15 @@ app.use(cors());
 // Middleware to parse JSON bodies
 app.use(express.json());
 
+// Serve static files from the 'client' directory
+app.use(express.static("src/client/milestone-02/main/ms2.html"));
+
 // POST route to create a new thread
-app.post('/threadPost', async (req, res) => {
+app.route("/threadPost").post(async (req, res) => {
   const threadData = req.body;
 
   // Create a new database instance.
-  const database =  await Database("TheMoon");
+  const database = await Database("TheMoon");
 
   try {
     const saveResult = await database.saveThread(
@@ -27,8 +36,9 @@ app.post('/threadPost', async (req, res) => {
       threadData.content,
       threadData.comments
     );
+    //database.getThreads(threadData.id).data
     if (saveResult.status === "success") {
-      res.status(200).json(threadData);
+      res.status(200).json(database.getThread(threadData.id).data);
     } else {
       res.status(404).json({ message: saveResult.message });
     }
@@ -38,7 +48,7 @@ app.post('/threadPost', async (req, res) => {
 });
 
 // GET route to retrieve threads based on a keyword
-app.get('/threadRetrieve', async (req, res) => {
+app.route("/threadRetrieve").get(async (req, res) => {
   const keyword = req.query.keyword;
 
   // Create a new database instance.
@@ -57,7 +67,7 @@ app.get('/threadRetrieve', async (req, res) => {
 });
 
 // DELETE route to delete a thread by ID
-app.delete('/deleteThread', async (req, res) => {
+app.route("/deleteThread").delete(async (req, res) => {
   const threadId = parseInt(req.query.id);
 
   // Create a new database instance.
@@ -76,7 +86,7 @@ app.delete('/deleteThread', async (req, res) => {
 });
 
 // PUT route to modify an existing thread
-app.put('/modifyThread', async (req, res) => {
+app.route("/modifyThread").put(async (req, res) => {
   const threadData = req.body;
 
   // Create a new database instance.
@@ -101,9 +111,9 @@ app.put('/modifyThread', async (req, res) => {
   }
 });
 
-// Serve static files from the 'client' directory
-
-app.use(express.static("src/client/milestone-02/main/ms2.html"));
+app.route("*").all(async (request, response) => {
+  response.status(404).send(`Not found: ${request.path}`);
+});
 
 // Start the server on the specified port
 app.listen(port, () => {

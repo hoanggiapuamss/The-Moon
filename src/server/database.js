@@ -96,42 +96,21 @@ const Database = async (dbname) => {
       }
     },
 
-    /**
-     * Asynchronously saves a game score to the database. This function manages
-     * the process of connecting to the database, retrieving the game scores,
-     * updating them, and saving the changes back to the database. It also
-     * handles errors that might occur during the process.
-     *
-     * @param {string} name - The name of the player for whom the score is being
-     * saved.
-     * @param {number} score - The score achieved by the player in the game.
-     * @returns {Promise<object>} A promise that resolves to an object
-     *                            indicating the result of the operation. If
-     *                            successful, returns an object with `{ status:
-     *                            'success' }`. If an error occurs, returns an
-     *                            object with `{ status: 'error', message:
-     *                            'Failed to save game score', error: <error
-     *                            message> }`.
-     */
-    saveStocks: async (name, score) => {
-      // TASK #7: Implement saveGameScore
-      // Hint: You can use the saveWordScore method as a reference.
-      // Hint: You will need to update the 'games' collection instead of the
-      //       'words' collection.
-      try {
-        const db = getDB();
-        const data = await db.get("games");
-        data.games.push({ name, score });
-        await db.put(data);
-        await db.close();
-        return { status: "success" };
-      } catch (e) {
-        return {
-          status: "error",
-          message: "Failed to save game score",
-          error: e.message,
-        };
-      }
+    getThread: async (id) => {
+        try {
+            const db = getDB();
+            const data = await db.get("threads");
+            const thread = data.threads.find((thread) => thread.id === id);
+            await db.close();
+            return { status: "success", data: thread };
+        } catch (e) {
+            await db.close();
+            return {
+            status: "error",
+            message: "Failed to retrieve thread",
+            error: e.message,
+            };
+        }
     },
 
     /**

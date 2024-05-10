@@ -111,17 +111,17 @@ export function renderPost(element) {
 
   <div id="user-spot" class="p-4">
   <h2 class="text-xl mb-4">Create a New Thread</h2>
-  <form id="thread-form" class="space-y-4">
+  <div id="thread-form" class="space-y-4">
     <div>
       <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
-      <input type="text" id="title" name="title" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" required>
+      <textarea type="text" id="title" name="title" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" required></textarea>
     </div>
     <div>
       <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
       <textarea id="content" name="content" rows="4" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" required></textarea>
     </div>
-    <button id="post-thread" type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">Submit</button>
-  </form>
+    <button id="post-thread" class="bg-blue-500 text-white px-4 py-2 rounded-md">Submit</button>
+  </div>
 </div>
 
   <div class="main">

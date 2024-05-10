@@ -17,7 +17,6 @@ import {
 } from "../db/community.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
-
   const usStocksView = document.getElementById("USStocksView");
   const tradingView = document.getElementById("TradingView");
   const communityView = document.getElementById("CommunityView");
@@ -115,8 +114,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       /////////////////////////////////////////////////CRUD OPERATION FOR COMMUNITY/////////////////////////////////////////////////
       // HANDLE ADD THREAD FROM USER_SPOT at post-thread button
       document
-        .getElementById("thread-form")
-        .addEventListener("submit", async function (event) {
+        .getElementById("post-thread")
+        .addEventListener("click", async function (event) {
           event.preventDefault();
 
           const title = document.getElementById("title").value;
@@ -130,30 +129,34 @@ document.addEventListener("DOMContentLoaded", async () => {
             content: content,
             comments: [],
           };
-          const URL="http://localhost:3000"
+          //`${URL}/threadPost?id=${threadData.id}&title=${threadData.title}&author=${threadData.author}&date=${threadData.date}&content=${threadData.content}&comments=${threadData.comments}`
+          const URL = "http://localhost:3000";
           try {
-            const response = await fetch(`${URL}/threadPost?id=${threadData.id}&title=${threadData.title}&author=${threadData.author}&date=${threadData.date}&content=${threadData.content}&comments=${threadData.comments}`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
+            const response = await fetch(
+              `${URL}/threadPost?id=${threadData.id}&title=${threadData.title}&author=${threadData.author}&date=${threadData.date}&content=${threadData.content}&comments=${threadData.comments}`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
               }
-            });
+            );
+            console.log(response);
 
             if (response.ok) {
-              // const newThread = document.createElement('div');
-              // newThread.classList.add('bg-white', 'p-4', 'border', 'border-gray-300', 'shadow-sm');
-              // newThread.innerHTML = `
-              //   <h3 class="text-lg font-medium">${threadData.title}</h3>
-              //   <p class="text-sm text-gray-500">${new Date(threadData.date).toLocaleString()}  0 comments</p>
-              //   <p>${threadData.content}</p>
-              // `;
-              // document.getElementById('threads').appendChild(newThread);
               console.log("Post oke");
-              renderThread(threadData);
+              console.log(response);
+              // const database = await Database("TheMoon");
+              // const result = await database.threadRetrieve(""); // Retrieve all threads
+
+              // saveThreadsToLocalStorage(result.data);
+              // const threadsAfterPosted = getThreadsFromLocalStorage();
+              // renderThread(threadsAfterPosted);
               // document.getElementById("thread-form").reset();
+              // switchView("CommunityView");
             } else {
               console.error("Failed to post thread");
-              console.log(error)
+              console.log(error);
             }
           } catch (error) {
             console.error("Error:", error);
