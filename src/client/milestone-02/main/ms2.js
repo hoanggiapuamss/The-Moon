@@ -130,14 +130,13 @@ document.addEventListener("DOMContentLoaded", async () => {
             content: content,
             comments: [],
           };
-
+          const URL="http://localhost:3000"
           try {
-            const response = await fetch("/threadPost", {
+            const response = await fetch(`${URL}/threadPost?id=${threadData.id}&title=${threadData.title}&author=${threadData.author}&date=${threadData.date}&content=${threadData.content}&comments=${threadData.comments}`, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
-              },
-              body: JSON.stringify(threadData),
+              }
             });
 
             if (response.ok) {
@@ -149,8 +148,9 @@ document.addEventListener("DOMContentLoaded", async () => {
               //   <p>${threadData.content}</p>
               // `;
               // document.getElementById('threads').appendChild(newThread);
+              console.log("Post oke");
               renderThread(threadData);
-              document.getElementById("thread-form").reset();
+              // document.getElementById("thread-form").reset();
             } else {
               console.error("Failed to post thread");
               console.log(error)

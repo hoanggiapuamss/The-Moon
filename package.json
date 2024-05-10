@@ -41,7 +41,8 @@
     "milestone-01": "http-server src/docs/milestone-01 -p 3000 -c-1 -o -s",
     "milestone-02": "http-server src/client/milestone-02/main/ms2.html -p 3001 -c-1 -o -s",
     "validate-html": "html-validate src/**/*.html",
-    "prettier": "prettier --write 'src/**/*.{js,css,md}'"
+    "prettier": "prettier --write 'src/**/*.{js,css,md}'",
+    "start": "node src/server/routes.js"
   },
   "devDependencies": {
     "html-validate": "^8.18.1",

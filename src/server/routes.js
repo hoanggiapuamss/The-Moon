@@ -1,191 +1,111 @@
-import { readFile } from "fs/promises";
-import * as http from "http";
-import * as url from "url";
-import Database from "./database.js";
-import path from "path";
+import express from 'express';
+import cors from 'cors';
+import Database from './database.js';
 
-// A basic server function to implement a simple RESTful API.
-async function basicServer(request, response) {
-  // Parse the URL to get the pathname and the query parameters.
-  const parsedUrl = url.parse(request.url, true);
-  const pathname = parsedUrl.pathname;
-  const query = parsedUrl.query;
+const app = express();
+const port = 3000;
 
-  // Grab the HTTP method.
-  const method = request.method;
+// Use CORS middleware
+app.use(cors());
 
-  if (method === "POST" && pathname === "/threadPost") {
-    console.log("POST /threadPost");
-    // Create a new database instance.
-    const database = await Database("TheMoon");
-    // TASK #10: Implement the /wordScore endpoint.
-    // Add your implementation here.
-    try {
-      console.log(query);
-      const saveResult = await database.saveThread(
-        parseInt(query.id),
-        query.title,
-        query.author,
-        parseInt(query.date),
-        query.content,
-        query.comments
-      );
-      if (saveResult.status === "success") {
-        response.writeHead(200, { "Content-Type": "application/json" });
-        response.end();
-      } else {
-        response.writeHead(404, { "Content-Type": "application/json" });
-        response.end(JSON.stringify({ message: saveResult.message }));
-      }
-    } catch (error) {
-      response.writeHead(500);
-      response.end(JSON.stringify({ error: error.message }));
-    }
-    // HTTP status code 501 Not Implemented is returned by a server when the
-    // request method is not supported by the server and cannot be handled. This
-    // status code implies that the server either does not recognize the request
-    // method, or it lacks the ability to fulfill the request. Essentially, the
-    // server understands the request method, but it doesn't have the
-    // capabilities to execute it.
-    // response.writeHead(501);
-  } else if (method === "GET" && pathname === "/threadRetrieve") {
-    console.log("GET /threadRetrieve");
-    // Create a new database instance.
-    const database = await Database("TheMoon");
+// Middleware to parse JSON bodies
+app.use(express.json());
 
-    // TASK #11: Implement the /highestWordScores endpoint.
-    // Add your implementation here.
-    try {
-      const threadReceived = await database.threadRetrieve(query.keyword);
-      if (threadReceived.status === "success") {
-        response.writeHead(200, { "Content-Type": "application/json" });
-        response.end(JSON.stringify(threadReceived.data));
-      } else {
-        response.writeHead(404, { "Content-Type": "application/json" });
-        response.end(JSON.stringify({ message: threadReceived.message }));
-      }
-    } catch (error) {
-      response.writeHead(500);
-      response.end(JSON.stringify({ error: error.message }));
-    }
-    // HTTP status code 501 Not Implemented is returned by a server when the
-    // request method is not supported by the server and cannot be handled. This
-    // status code implies that the server either does not recognize the request
-    // method, or it lacks the ability to fulfill the request. Essentially, the
-    // server understands the request method, but it doesn't have the
-    // capabilities to execute it.
-    // response.writeHead(501);
-  } else if (method === "DELETE" && pathname === "/deleteThread") {
-    // Create a new database instance.
-    console.log("DELETE /deleteThread");
-    // Create a new database instance.
-    const database = await Database("TheMoon");
+// POST route to create a new thread
+app.post('/threadPost', async (req, res) => {
+  const threadData = req.body;
 
-    try {
-      const deleteResult = await database.deleteThread(parseInt(query.id));
-      if (deleteResult.status === "success") {
-        response.writeHead(200, { "Content-Type": "application/json" });
-        response.end();
-      } else {
-        response.writeHead(404, { "Content-Type": "application/json" });
-        response.end(JSON.stringify({ message: deleteResult.message }));
-      }
-    } catch (error) {
-      response.writeHead(500);
-      response.end(JSON.stringify({ error: error.message }));
-    }
-    // HTTP status code 501 Not Implemented is returned by a server when the
-    // request method is not supported by the server and cannot be handled. This
-    // status code implies that the server either does not recognize the request
-    // method, or it lacks the ability to fulfill the request. Essentially, the
-    // server understands the request method, but it doesn't have the
-    // capabilities to execute it.
-    // response.writeHead(501);
-  } else if (method === "PUT" && pathname === "/modifyThread") {
-    // Create a new database instance.
-    console.log("PUT /modifyThread");
-    // Create a new database instance.
-    const database = await Database("TheMoon");
+  // Create a new database instance.
+  const database =  await Database("TheMoon");
 
-    try {
-      const modifyResult = await database.modifyThread(
-        parseInt(query.id),
-        query.title,
-        query.author,
-        parseInt(query.date),
-        query.content,
-        query.comments
-      );
-      if (modifyResult.status === "success") {
-        response.writeHead(200, { "Content-Type": "application/json" });
-        response.end();
-      } else {
-        response.writeHead(404, { "Content-Type": "application/json" });
-        response.end(JSON.stringify({ message: modifyResult.message }));
-      }
-    } catch (error) {
-      response.writeHead(500);
-      response.end(JSON.stringify({ error: error.message }));
-    }
-
-    // HTTP status code 501 Not Implemented is returned by a server when the
-    // request method is not supported by the server and cannot be handled. This
-    // status code implies that the server either does not recognize the request
-    // method, or it lacks the ability to fulfill the request. Essentially, the
-    // server understands the request method, but it doesn't have the
-    // capabilities to execute it.
-    // response.writeHead(501);
-  } else {
-    // This part handles the static files. If we do not match any of the routes
-    // above, we assume it is a static file and serve it from the 'client'
-    // directory. This means we neeed to read the file from the file system and
-    // send it back to the client.
-
-    // Helper function to read a file and send it back to the client.
-    const sendIt = async (pathname, type) => {
-      // The client files are found in the client directory, so we must prepend
-      // the client path to the file requested. We also recognize the meaning of
-      // a '/' to refer to the ms2.html file.
-      const file = pathname === "/" ? "../client/milestone-02/main/ms2.html" : pathname;
-      try {
-        const data = await readFile(
-          path.join(
-            path.dirname(url.fileURLToPath(import.meta.url)),
-            "..",
-            "client",
-            file
-          ),
-          "utf8"
-        );
-        response.writeHead(200, { "Content-Type": type });
-        response.write(data);
-      } catch (err) {
-        response.statusCode = 404;
-        response.write("Not found");
-      }
-      response.end();
-    };
-
-    // Determine the content type of the requested file (if it is a file).
-    if (pathname.endsWith(".css")) {
-      sendIt(pathname, "text/css");
-    } else if (pathname.endsWith(".js")) {
-      sendIt(pathname, "text/javascript");
-    } else if (pathname.endsWith(".json")) {
-      sendIt(pathname, "application/json");
-    } else if (pathname.endsWith(".html")) {
-      sendIt(pathname, "text/html");
-    } else if (pathname.endsWith("/")) {
-      sendIt(pathname, "text/html");
+  try {
+    const saveResult = await database.saveThread(
+      threadData.id,
+      threadData.title,
+      threadData.author,
+      threadData.date,
+      threadData.content,
+      threadData.comments
+    );
+    if (saveResult.status === "success") {
+      res.status(200).json(threadData);
     } else {
-      sendIt(pathname, "text/plain");
+      res.status(404).json({ message: saveResult.message });
     }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-}
-
-// Start the server on port 3260.
-http.createServer(basicServer).listen(5500, () => {
-  console.log("Server started on port 5500d");
 });
 
-export default basicServer;
+// GET route to retrieve threads based on a keyword
+app.get('/threadRetrieve', async (req, res) => {
+  const keyword = req.query.keyword;
+
+  // Create a new database instance.
+  const database = await Database("TheMoon");
+
+  try {
+    const threadReceived = await database.threadRetrieve(keyword);
+    if (threadReceived.status === "success") {
+      res.status(200).json(threadReceived.data);
+    } else {
+      res.status(404).json({ message: threadReceived.message });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// DELETE route to delete a thread by ID
+app.delete('/deleteThread', async (req, res) => {
+  const threadId = parseInt(req.query.id);
+
+  // Create a new database instance.
+  const database = await Database("TheMoon");
+
+  try {
+    const deleteResult = await database.deleteThread(threadId);
+    if (deleteResult.status === "success") {
+      res.status(200).end();
+    } else {
+      res.status(404).json({ message: deleteResult.message });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// PUT route to modify an existing thread
+app.put('/modifyThread', async (req, res) => {
+  const threadData = req.body;
+
+  // Create a new database instance.
+  const database = await Database("TheMoon");
+
+  try {
+    const modifyResult = await database.modifyThread(
+      threadData.id,
+      threadData.title,
+      threadData.author,
+      threadData.date,
+      threadData.content,
+      threadData.comments
+    );
+    if (modifyResult.status === "success") {
+      res.status(200).end();
+    } else {
+      res.status(404).json({ message: modifyResult.message });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Serve static files from the 'client' directory
+
+app.use(express.static("src/client/milestone-02/main/ms2.html"));
+
+// Start the server on the specified port
+app.listen(port, () => {
+  console.log(`Server started on port ${port}`);
+});

@@ -87,6 +87,7 @@ const Database = async (dbname) => {
         await db.close();
         return { status: "success" };
       } catch (e) {
+        await db.close();
         return {
           status: "error",
           message: "Failed to save thread",
@@ -169,6 +170,7 @@ const Database = async (dbname) => {
           data: threadsRetrieved,
         };
       } catch (e) {
+        await db.close();
         return {
           status: "error",
           message: "Failed to retrieve threads",
