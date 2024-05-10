@@ -75,7 +75,7 @@ async function basicServer(request, response) {
     // server understands the request method, but it doesn't have the
     // capabilities to execute it.
     // response.writeHead(501);
-  } else if (method === "POST" && pathname === "/gameScore") {
+  } else if (method === "DELETE" && pathname === "/deleteThread") {
     // Create a new database instance.
     const database = await Database("scrabble");
 
@@ -104,7 +104,7 @@ async function basicServer(request, response) {
     // server understands the request method, but it doesn't have the
     // capabilities to execute it.
     // response.writeHead(501);
-  } else if (method === "GET" && pathname === "/highestGameScores") {
+  } else if (method === "PUT" && pathname === "/modifyThread") {
     // Create a new database instance.
     const database = await Database("scrabble");
 
@@ -141,8 +141,8 @@ async function basicServer(request, response) {
     const sendIt = async (pathname, type) => {
       // The client files are found in the client directory, so we must prepend
       // the client path to the file requested. We also recognize the meaning of
-      // a '/' to refer to the index.html file.
-      const file = pathname === "/" ? "index.html" : pathname;
+      // a '/' to refer to the ms2.html file.
+      const file = pathname === "/" ? "../client/milestone-02/main/ms2.html" : pathname;
       try {
         const data = await readFile(
           path.join(
@@ -180,8 +180,8 @@ async function basicServer(request, response) {
 }
 
 // Start the server on port 3260.
-http.createServer(basicServer).listen(3260, () => {
-  console.log("Server started on port 3260");
+http.createServer(basicServer).listen(5500, () => {
+  console.log("Server started on port 5500d");
 });
 
 export default basicServer;

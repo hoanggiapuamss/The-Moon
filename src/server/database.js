@@ -96,44 +96,6 @@ const Database = async (dbname) => {
     },
 
     /**
-     * Asynchronously saves a game score to the database. This function manages
-     * the process of connecting to the database, retrieving the game scores,
-     * updating them, and saving the changes back to the database. It also
-     * handles errors that might occur during the process.
-     *
-     * @param {string} name - The name of the player for whom the score is being
-     * saved.
-     * @param {number} score - The score achieved by the player in the game.
-     * @returns {Promise<object>} A promise that resolves to an object
-     *                            indicating the result of the operation. If
-     *                            successful, returns an object with `{ status:
-     *                            'success' }`. If an error occurs, returns an
-     *                            object with `{ status: 'error', message:
-     *                            'Failed to save game score', error: <error
-     *                            message> }`.
-     */
-    saveStocks: async (name, score) => {
-      // TASK #7: Implement saveGameScore
-      // Hint: You can use the saveWordScore method as a reference.
-      // Hint: You will need to update the 'games' collection instead of the
-      //       'words' collection.
-      try {
-        const db = getDB();
-        const data = await db.get("games");
-        data.games.push({ name, score });
-        await db.put(data);
-        await db.close();
-        return { status: "success" };
-      } catch (e) {
-        return {
-          status: "error",
-          message: "Failed to save game score",
-          error: e.message,
-        };
-      }
-    },
-
-    /**
      * Asynchronously retrieves the top 10 word scores from the database. This
      * function handles the process of connecting to the database, fetching the
      * words data, sorting the scores from highest to lowest, and returning the
@@ -172,48 +134,6 @@ const Database = async (dbname) => {
         return {
           status: "error",
           message: "Failed to retrieve threads",
-          error: error.message,
-        };
-      }
-    },
-
-    /**
-     * Asynchronously retrieves the top 10 game scores from the database. This
-     * method handles the full lifecycle of this operation, including database
-     * connection, data retrieval, sorting the scores from highest to lowest,
-     * and then slicing the top 10 scores for return.
-     *
-     * @returns {Promise<object>} A promise that resolves to an object
-     *                            indicating the result of the operation. If
-     *                            successful, it returns an object with `{
-     *                            status: 'success', data: Array }`, where
-     *                            `data` contains the top 10 game scores as an
-     *                            array of objects. If an error occurs, it
-     *                            returns an object with `{ status: 'error',
-     *                            message: 'Failed to retrieve game scores',
-     *                            error: <error message> }`.
-     */
-    top10GameScores: async () => {
-      // TASK #9: Implement top10GameScores
-      try {
-        const db = getDB();
-        const data = await db.get("games");
-        // Sort the scores from highest to lowest
-        const sortedScores = data.games.sort((a, b) => b.score - a.score);
-
-        // Slice the top 10 scores
-        const top10Scores = sortedScores.slice(0, 10);
-
-        await db.close();
-        // Return the top 10 word scores as an array of objects
-        return {
-          status: "success",
-          data: top10Scores,
-        };
-      } catch (e) {
-        return {
-          status: "error",
-          message: "Failed to retrieve game scores",
           error: error.message,
         };
       }

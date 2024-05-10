@@ -113,51 +113,51 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
       }
       /////////////////////////////////////////////////CRUD OPERATION FOR COMMUNITY/////////////////////////////////////////////////
-      //HANDLE ADD THREAD FROM USER_SPOT at post-thread button
-      // document
-      //   .getElementById("thread-form")
-      //   .addEventListener("submit", async function (event) {
-      //     event.preventDefault();
+      // HANDLE ADD THREAD FROM USER_SPOT at post-thread button
+      document
+        .getElementById("thread-form")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
 
-      //     const title = document.getElementById("title").value;
-      //     const content = document.getElementById("content").value;
+          const title = document.getElementById("title").value;
+          const content = document.getElementById("content").value;
 
-      //     const threadData = {
-      //       id: Date.now(), // Mock ID
-      //       title: title,
-      //       author: "CurrentUser", // Replace with the actual username
-      //       date: Date.now(),
-      //       content: content,
-      //       comments: [],
-      //     };
+          const threadData = {
+            id: Date.now(), // Mock ID
+            title: title,
+            author: "CurrentUser", // Replace with the actual username
+            date: Date.now(),
+            content: content,
+            comments: [],
+          };
 
-      //     try {
-      //       const response = await fetch("/threadPost", {
-      //         method: "POST",
-      //         headers: {
-      //           "Content-Type": "application/json",
-      //         },
-      //         body: JSON.stringify(threadData),
-      //       });
+          try {
+            const response = await fetch("/threadPost", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(threadData),
+            });
 
-      //       if (response.ok) {
-      //         // const newThread = document.createElement('div');
-      //         // newThread.classList.add('bg-white', 'p-4', 'border', 'border-gray-300', 'shadow-sm');
-      //         // newThread.innerHTML = `
-      //         //   <h3 class="text-lg font-medium">${threadData.title}</h3>
-      //         //   <p class="text-sm text-gray-500">${new Date(threadData.date).toLocaleString()}  0 comments</p>
-      //         //   <p>${threadData.content}</p>
-      //         // `;
-      //         // document.getElementById('threads').appendChild(newThread);
-      //         renderThread(threadData);
-      //         document.getElementById("thread-form").reset();
-      //       } else {
-      //         console.error("Failed to post thread");
-      //       }
-      //     } catch (error) {
-      //       console.error("Error:", error);
-      //     }
-      //   });
+            if (response.ok) {
+              // const newThread = document.createElement('div');
+              // newThread.classList.add('bg-white', 'p-4', 'border', 'border-gray-300', 'shadow-sm');
+              // newThread.innerHTML = `
+              //   <h3 class="text-lg font-medium">${threadData.title}</h3>
+              //   <p class="text-sm text-gray-500">${new Date(threadData.date).toLocaleString()}  0 comments</p>
+              //   <p>${threadData.content}</p>
+              // `;
+              // document.getElementById('threads').appendChild(newThread);
+              renderThread(threadData);
+              document.getElementById("thread-form").reset();
+            } else {
+              console.error("Failed to post thread");
+            }
+          } catch (error) {
+            console.error("Error:", error);
+          }
+        });
       switchView("CommunityView");
     });
 });

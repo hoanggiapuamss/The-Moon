@@ -52,6 +52,7 @@
   },
   "dependencies": {
     "express": "^4.19.2",
+    "http": "^0.0.1-security",
     "pouchdb": "^8.0.1"
   }
 }
