@@ -77,21 +77,18 @@ async function basicServer(request, response) {
     // response.writeHead(501);
   } else if (method === "DELETE" && pathname === "/deleteThread") {
     // Create a new database instance.
-    const database = await Database("scrabble");
+    console.log("DELETE /deleteThread");
+    // Create a new database instance.
+    const database = await Database("TheMoon");
 
-    // TASK #12: Implement the /gameScore endpoint.
-    // Add your implementation here.
     try {
-      const saveResult = await database.saveGameScore(
-        query.name,
-        parseInt(query.score)
-      );
-      if (saveResult.status === "success") {
+      const deleteResult = await database.deleteThread(parseInt(query.id));
+      if (deleteResult.status === "success") {
         response.writeHead(200, { "Content-Type": "application/json" });
         response.end();
       } else {
-        response.writeHead(500, { "Content-Type": "application/json" });
-        response.end(JSON.stringify({ message: saveResult.message }));
+        response.writeHead(404, { "Content-Type": "application/json" });
+        response.end(JSON.stringify({ message: deleteResult.message }));
       }
     } catch (error) {
       response.writeHead(500);
@@ -106,18 +103,25 @@ async function basicServer(request, response) {
     // response.writeHead(501);
   } else if (method === "PUT" && pathname === "/modifyThread") {
     // Create a new database instance.
-    const database = await Database("scrabble");
+    console.log("PUT /modifyThread");
+    // Create a new database instance.
+    const database = await Database("TheMoon");
 
-    // TASK #13: Implement the /highestGameScores endpoint.
-    // Add your implementation here.
     try {
-      const topGameScores = await database.top10GameScores();
-      if (topGameScores.status === "success") {
+      const modifyResult = await database.modifyThread(
+        parseInt(query.id),
+        query.title,
+        query.author,
+        parseInt(query.date),
+        query.content,
+        query.comments
+      );
+      if (modifyResult.status === "success") {
         response.writeHead(200, { "Content-Type": "application/json" });
-        response.end(JSON.stringify(topGameScores.data));
+        response.end();
       } else {
-        response.writeHead(500, { "Content-Type": "application/json" });
-        response.end(JSON.stringify({ message: topGameScores.message }));
+        response.writeHead(404, { "Content-Type": "application/json" });
+        response.end(JSON.stringify({ message: modifyResult.message }));
       }
     } catch (error) {
       response.writeHead(500);
