@@ -82,7 +82,7 @@ const Database = async (dbname) => {
       try {
         const db = getDB();
         const data = await db.get("threads");
-        data.threads.push({ id, title, author,date,content,comments });
+        data.threads.push({ id, title, author, date, content, comments });
         await db.put(data);
         await db.close();
         return { status: "success" };
@@ -90,6 +90,44 @@ const Database = async (dbname) => {
         return {
           status: "error",
           message: "Failed to save thread",
+          error: e.message,
+        };
+      }
+    },
+
+    /**
+     * Asynchronously saves a game score to the database. This function manages
+     * the process of connecting to the database, retrieving the game scores,
+     * updating them, and saving the changes back to the database. It also
+     * handles errors that might occur during the process.
+     *
+     * @param {string} name - The name of the player for whom the score is being
+     * saved.
+     * @param {number} score - The score achieved by the player in the game.
+     * @returns {Promise<object>} A promise that resolves to an object
+     *                            indicating the result of the operation. If
+     *                            successful, returns an object with `{ status:
+     *                            'success' }`. If an error occurs, returns an
+     *                            object with `{ status: 'error', message:
+     *                            'Failed to save game score', error: <error
+     *                            message> }`.
+     */
+    saveStocks: async (name, score) => {
+      // TASK #7: Implement saveGameScore
+      // Hint: You can use the saveWordScore method as a reference.
+      // Hint: You will need to update the 'games' collection instead of the
+      //       'words' collection.
+      try {
+        const db = getDB();
+        const data = await db.get("games");
+        data.games.push({ name, score });
+        await db.put(data);
+        await db.close();
+        return { status: "success" };
+      } catch (e) {
+        return {
+          status: "error",
+          message: "Failed to save game score",
           error: e.message,
         };
       }
@@ -135,6 +173,74 @@ const Database = async (dbname) => {
           status: "error",
           message: "Failed to retrieve threads",
           error: error.message,
+        };
+      }
+    },
+
+    /**
+     * Asynchronously retrieves the top 10 game scores from the database. This
+     * method handles the full lifecycle of this operation, including database
+     * connection, data retrieval, sorting the scores from highest to lowest,
+     * and then slicing the top 10 scores for return.
+     *
+     * @returns {Promise<object>} A promise that resolves to an object
+     *                            indicating the result of the operation. If
+     *                            successful, it returns an object with `{
+     *                            status: 'success', data: Array }`, where
+     *                            `data` contains the top 10 game scores as an
+     *                            array of objects. If an error occurs, it
+     *                            returns an object with `{ status: 'error',
+     *                            message: 'Failed to retrieve game scores',
+     *                            error: <error message> }`.
+     */
+    modifyThread: async (id, title, author, date, content, comments) => {
+      try {
+        const db = getDB();
+        const data = await db.get("threads");
+        // Find the thread to modify
+        const threadToModify = data.threads.find((thread) => thread.id === id);
+        // If the thread is found, update its properties
+        if (threadToModify) {
+          threadToModify.title = title;
+          threadToModify.author = author;
+          threadToModify.date = date;
+          threadToModify.content = content;
+          threadToModify.comments = comments;
+          await db.put(data);
+          await db.close();
+          return { status: "success" };
+        } else {
+          return { status: "error", message: "Thread not found" };
+        }
+      } catch (e) {
+        return {
+          status: "error",
+          message: "Failed to modify thread",
+          error: e.message,
+        };
+      }
+    },
+
+    deleteThread: async (id) => {
+      try {
+        const db = getDB();
+        const data = await db.get("threads");
+        // Find the index of the thread to delete
+        const index = data.threads.findIndex((thread) => thread.id === id);
+        // If the thread is found, remove it
+        if (index !== -1) {
+          data.threads.splice(index, 1);
+          await db.put(data);
+          await db.close();
+          return { status: "success" };
+        } else {
+          return { status: "error", message: "Thread not found" };
+        }
+      } catch (e) {
+        return {
+          status: "error",
+          message: "Failed to delete thread",
+          error: e.message,
         };
       }
     },

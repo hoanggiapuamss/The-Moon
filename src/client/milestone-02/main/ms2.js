@@ -153,6 +153,7 @@ document.addEventListener("DOMContentLoaded", async () => {
               document.getElementById("thread-form").reset();
             } else {
               console.error("Failed to post thread");
+              console.log(error)
             }
           } catch (error) {
             console.error("Error:", error);
