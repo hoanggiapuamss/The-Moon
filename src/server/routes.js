@@ -62,25 +62,6 @@ app.route("/threadPost").post(async (req, res) => {
   }
 });
 
-// GET route to retrieve threads based on a keyword
-app.route("/threadRetrieve").get(async (req, res) => {
-  const keyword = req.query.keyword;
-
-  // Create a new database instance.
-  const database = await Database("TheMoon");
-
-  try {
-    const threadReceived = await database.threadRetrieve(keyword);
-    if (threadReceived.status === "success") {
-      res.status(200).json(threadReceived.data);
-    } else {
-      res.status(404).json({ message: threadReceived.message });
-    }
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
 // DELETE route to delete a thread by ID
 app.route("/deleteAllThread").delete(async (req, res) => {
   // Create a new database instance.
@@ -94,32 +75,6 @@ app.route("/deleteAllThread").delete(async (req, res) => {
       res.status(200).json({message: "All threads deleted in the database"});
     } else {
       res.status(404).json({ message: deleteResult.message });
-    }
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// PUT route to modify an existing thread
-app.route("/modifyThread").put(async (req, res) => {
-  const threadData = req.body;
-
-  // Create a new database instance.
-  const database = await Database("TheMoon");
-
-  try {
-    const modifyResult = await database.modifyThread(
-      threadData.id,
-      threadData.title,
-      threadData.author,
-      threadData.date,
-      threadData.content,
-      threadData.comments
-    );
-    if (modifyResult.status === "success") {
-      res.status(200).end();
-    } else {
-      res.status(404).json({ message: modifyResult.message });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });

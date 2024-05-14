@@ -50,8 +50,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   //       marketCap: "$1,265,864,161,626",
   //       volume24h: "$29,361,064,010",
   //     },
-  //   ];
-
+  //   ];]
+  fetchStockData();
   document
     .getElementById("USStocksLink")
     .addEventListener("click", async (event) => {
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           ticker.addEventListener("click", (event) => {
             event.preventDefault();
             let getTicker =
-              document.querySelector(".clickable-ticker").textContent;
+              ticker.textContent;
             renderTV(getTicker);
             switchView("TradingView");
           });
