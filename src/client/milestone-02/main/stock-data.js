@@ -236,7 +236,6 @@ async function populateStockData1(stockData) {
       }
 
       //Market Cap (OK)
-      const curr_price = priceDataRTJSON.results[0].c || priceDataRTJSON.results[1].c;
       const marketDataResponse = await fetch(
         `https://api.polygon.io/v3/reference/tickers/${ticker}?date=${yesterday}&apiKey=jRMYcO5SdtZZ_dsDfetXJcJRbHXADrOP`
       );
@@ -246,7 +245,7 @@ async function populateStockData1(stockData) {
         stockObj.marketCap = marketData['results']['market_cap']
       }else{
         if(marketData['results']['share_class_shares_outstanding']){
-          stockObj.marketCap =  marketData["results"]["share_class_shares_outstanding"] * curr_price
+          stockObj.marketCap =  marketData["results"]["share_class_shares_outstanding"] * priceDataRealTime
         }else{
           // mock data between 40 millions and 100 millions
           const min = 40000000;
@@ -258,9 +257,10 @@ async function populateStockData1(stockData) {
 
       //volume
       //mock data again because the 1 percentage rate wasn't available
-      const per = Math.random()*2 -1; 
-      const vol = curr_price*per;
-      stock.volume24h = vol || "N/A";
+      //Hello World
+      let per = Math.random()*2 -1; 
+      let vol = priceDataRealTime*per;
+      stockObj.volume24h = vol? vol : "N/A";
     } catch (error) {
       console.error("Error fetching stock data:", error);
     }
