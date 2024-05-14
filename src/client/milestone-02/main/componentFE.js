@@ -3,7 +3,8 @@ import {
   saveThreadsToLocalStorage,
   getThreadsFromLocalStorage,
   initializeThreads,
-} from "../db/community.js";
+  deleteAllThreads
+} from "./community.js";
 
 export function switchView(viewIdToShow) {
   const views = document.querySelectorAll(".view");
@@ -121,6 +122,7 @@ export function renderPost(element) {
       <textarea id="content" name="content" rows="4" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" required></textarea>
     </div>
     <button id="post-thread" class="bg-blue-500 text-white px-4 py-2 rounded-md">Submit</button>
+    <button id="delete-threads" class="bg-blue-500 text-white px-4 py-2 rounded-md">Delete</button>
   </div>
 </div>
 
@@ -147,6 +149,11 @@ function addComment(comment) {
 `;
 }
 
+/* <button id="modify-comment" class="bg-blue-500 text-white px-4 py-2 rounded-md">Modify Comment</button>
+<div class="relative z-0 w-full mb-5 group">
+  <input type="text" name="floating_comment" id="change-input" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="Click Here To Change Your Comment" required />
+</div> */
+
 export function renderThreadPost(element, thread) {
   const threadHTML = `
     <div class="top-bar">
@@ -161,7 +168,7 @@ export function renderThreadPost(element, thread) {
             </div>
         </div>
         <textarea></textarea>
-        <button id="add-comment">add comment</button>
+        <button id="add-comment" class="bg-blue-500 text-white px-4 py-2 rounded-md">Add Comment</button>
         <div class="comments">
             <div class="comment">
                 <div class="top-comment">

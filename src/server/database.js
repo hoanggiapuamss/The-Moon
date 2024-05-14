@@ -78,7 +78,7 @@ const Database = async (dbname) => {
      *                            'Failed to save thread', error: <error
      *                            message> }`.
      */
-    saveThread: async (id, title, author,date,content,comments) => {
+    saveThread: async (id, title, author, date, content, comments) => {
       try {
         const db = getDB();
         const data = await db.get("threads");
@@ -97,20 +97,20 @@ const Database = async (dbname) => {
     },
 
     getThread: async (id) => {
-        try {
-            const db = getDB();
-            const data = await db.get("threads");
-            const thread = data.threads.find((thread) => thread.id === id);
-            await db.close();
-            return { status: "success", data: thread };
-        } catch (e) {
-            await db.close();
-            return {
-            status: "error",
-            message: "Failed to retrieve thread",
-            error: e.message,
-            };
-        }
+      try {
+        const db = getDB();
+        const data = await db.get("threads");
+        const thread = data.threads.find((thread) => thread.id === id);
+        await db.close();
+        return { status: "success", data: thread };
+      } catch (e) {
+        await db.close();
+        return {
+          status: "error",
+          message: "Failed to retrieve thread",
+          error: e.message,
+        };
+      }
     },
 
     /**
@@ -135,12 +135,18 @@ const Database = async (dbname) => {
         const db = getDB();
         const data = await db.get("threads");
         // Sort the scores from highest to lowest
-        const threadsRetrieved = data.threads.filter(thread => {
-            return thread.title.includes(keyword) ||
-                   thread.content.includes(keyword) ||
-                   thread.author.includes(keyword) ||
-                   thread.comments.some(comment => comment.content.includes(keyword) || comment.author.includes(keyword));
-          });
+        const threadsRetrieved = data.threads.filter((thread) => {
+          return (
+            thread.title.includes(keyword) ||
+            thread.content.includes(keyword) ||
+            thread.author.includes(keyword) ||
+            thread.comments.some(
+              (comment) =>
+                comment.content.includes(keyword) ||
+                comment.author.includes(keyword)
+            )
+          );
+        });
 
         await db.close();
         // Return the top 10 word scores as an array of objects
@@ -202,21 +208,17 @@ const Database = async (dbname) => {
       }
     },
 
-    deleteThread: async (id) => {
+    deleteAllThread: async () => {
       try {
         const db = getDB();
         const data = await db.get("threads");
         // Find the index of the thread to delete
-        const index = data.threads.findIndex((thread) => thread.id === id);
-        // If the thread is found, remove it
-        if (index !== -1) {
-          data.threads.splice(index, 1);
-          await db.put(data);
-          await db.close();
-          return { status: "success" };
-        } else {
-          return { status: "error", message: "Thread not found" };
+        for(let i=0; i<data.threads.length; i++){
+          data.threads.pop();
         }
+        await db.put(data);
+        await db.close();
+        return { status: "success" };
       } catch (e) {
         return {
           status: "error",

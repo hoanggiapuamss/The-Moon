@@ -35,6 +35,16 @@ export function saveThreadsToLocalStorage(threads) {
   localStorage.setItem("threads", JSON.stringify(threads));
 }
 
+export function saveThread(thread) {
+  let threads = JSON.parse(localStorage.getItem("threads")) || null;
+  if (!threads) {
+    saveThreadsToLocalStorage([thread]);
+  } else {
+    threads.push(thread);
+    saveThreadsToLocalStorage(threads);
+  }
+}
+
 export function getThreadsFromLocalStorage() {
   const storedThreads = localStorage.getItem("threads");
   return storedThreads ? JSON.parse(storedThreads) : null;
@@ -65,6 +75,6 @@ export function deleteThreadById(threadId) {
  * Deletes all threads from the local storage.
  */
 export function deleteAllThreads() {
-    // Remove the 'threads' item from local storage
-    localStorage.removeItem('threads');
-  }
+  // Remove the 'threads' item from local storage
+  localStorage.removeItem("threads");
+}

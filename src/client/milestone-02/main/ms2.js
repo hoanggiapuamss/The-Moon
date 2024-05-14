@@ -14,7 +14,9 @@ import {
   saveThreadsToLocalStorage,
   getThreadsFromLocalStorage,
   initializeThreads,
-} from "../db/community.js";
+  deleteAllThreads,
+  saveThread,
+} from "./community.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const usStocksView = document.getElementById("USStocksView");
@@ -82,14 +84,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (getThreadsFromLocalStorage() == null) {
     initializeThreads(threads);
   }
-  //threads filer
-  // threads.forEach((element)=>{
-  //   if(!element.id){
-  //     threads.pop(element);
-  //   }
-  // })
-  // saveThreadsToLocalStorage(threads);
-
   document
     .getElementById("communityLink")
     .addEventListener("click", function (event) {
@@ -97,6 +91,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       renderPost(communityView);
       const currentThread = getThreadsFromLocalStorage();
       console.log(currentThread);
+      console.log(threads);
       renderThread(currentThread);
       //after render thread, handle click any thread event
       const threadLinks = document.getElementsByClassName("thread-link");
@@ -112,7 +107,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
       }
       /////////////////////////////////////////////////CRUD OPERATION FOR COMMUNITY/////////////////////////////////////////////////
-      // HANDLE ADD THREAD FROM USER_SPOT at post-thread button
+      // HANDLE ADD THREAD FROM USER_SPOT at post-thread button (CRUD)
       document
         .getElementById("post-thread")
         .addEventListener("click", async function (event) {
@@ -138,22 +133,41 @@ document.addEventListener("DOMContentLoaded", async () => {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
+                  // 'Content-Type': 'application/x-www-form-urlencoded',
                 },
+                body: JSON.stringify(threadData),
               }
             );
-            console.log(response);
+            const data = await response.json();
 
             if (response.ok) {
               console.log("Post oke");
-              console.log(response);
-              // const database = await Database("TheMoon");
-              // const result = await database.threadRetrieve(""); // Retrieve all threads
-
-              // saveThreadsToLocalStorage(result.data);
-              // const threadsAfterPosted = getThreadsFromLocalStorage();
-              // renderThread(threadsAfterPosted);
-              // document.getElementById("thread-form").reset();
-              // switchView("CommunityView");
+              console.log(data);
+              // threads.push(data);
+              console.log(threads);
+              // deleteAllThreads();
+              // saveThreadsToLocalStorage(threads);
+              saveThread(data);
+              const threadsAfterPosted = getThreadsFromLocalStorage();
+              console.log(threadsAfterPosted);
+              document.querySelector("#threads").innerHTML = "";
+              renderThread(threadsAfterPosted);
+              const newthreadLinks =
+                document.getElementsByClassName("thread-link");
+              for (let link of newthreadLinks) {
+                link.addEventListener("click", function (event) {
+                  event.preventDefault();
+                  // Find the thread data based on the clicked link
+                  const threadId = this.getAttribute("id"); // Get ID from href
+                  const thread = threadsAfterPosted.find(
+                    (t) => t.id == threadId
+                  );
+                  // Assuming you have an element where you want to render the thread post
+                  renderThreadPost(communityView, thread);
+                  // console.log(getThreadsFromLocalStorage());
+                  // HANDLE UPDATE COMMENTS OF A THREAD (CRUD)
+                });
+              }
             } else {
               console.error("Failed to post thread");
               console.log(error);
@@ -162,6 +176,35 @@ document.addEventListener("DOMContentLoaded", async () => {
             console.error("Error:", error);
           }
         });
+
+      // HANDLE DELETE THREAD FROM USER_SPOT at post-thread button (CRUD)
+      document
+        .getElementById("delete-threads")
+        .addEventListener("click", async function (event) {
+          event.preventDefault();
+          console.log("Handling delete");
+          const URL = "http://localhost:3000";
+          try {
+            const response = await fetch(`${URL}/deleteAllThread`, {
+              method: "DELETE",
+            });
+            console.log(response);
+            const data = await response.json();
+            if (response.ok) {
+              console.log("Delete oke");
+              console.log(data);
+              deleteAllThreads();
+              console.log(getThreadsFromLocalStorage());
+              document.querySelector("#threads").innerHTML = "";
+            } else {
+              console.error("Failed to delete thread");
+              console.log(error);
+            }
+          } catch (error) {
+            console.error("Error:", error);
+          }
+        });
+      // HANDLE GET THREAD FROM USER_SPOT at post-thread button
       switchView("CommunityView");
     });
 });

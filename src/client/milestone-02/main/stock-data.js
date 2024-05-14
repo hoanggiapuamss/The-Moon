@@ -57,12 +57,28 @@ export let stocks = [
     "marketCap": "3.019 T USD"
   },
   {
-    "name": "Netflix, Inc.",
-    "ticker": "NFLX",
-    "price": 561.23,
-    "volume24h": "29.695M",
-    "change7d": "+1.82%",
-    "marketCap": "3.019 T USD"
+    "name": "GameStop Corp.",
+    "ticker": "GME",
+    "price": 300.23,
+    "volume24h": "10.695M",
+    "change7d": "-182%",
+    "marketCap": "2.038 T USD"
+  },
+  {
+    "name": "Shimmick Construction Co., Inc.",
+    "ticker": "SHIM",
+    "price": 180.33,
+    "volume24h": "15.123",
+    "change7d": "+5.23%",
+    "marketCap": "1.567 T USD"
+  },
+  {
+    "name": "Intel Corporation",
+    "ticker": "INTC",
+    "price": 31.05,
+    "volume24h": "47.672M",
+    "change7d": "+1.77%",
+    "marketCap": "131.18 T USD"
   },
 ];
 

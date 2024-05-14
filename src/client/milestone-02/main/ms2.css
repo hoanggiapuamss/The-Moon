@@ -202,7 +202,7 @@ textarea{
   margin-left: 20px;
 }
 
-button #add-comment{
+button #add-comment #modify-comment {
   display: block;
   margin: 10px 0;
 }
