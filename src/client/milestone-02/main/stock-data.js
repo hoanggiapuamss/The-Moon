@@ -142,9 +142,9 @@ for (const stock of stockData) {
     let percent = ((priceDataRealTime - priceData1week) / priceData1week) * 100 ;
     if (percent === 0){
       //mock data between -6 and 6
-      stockObj.change7d = Math.random()*12 - 6
+      stockObj.change7d = (Math.random()*12 - 6).toFixed(2).toString().concat('%')
     }else{  
-      stockObj.change7d = percent
+      stockObj.change7d = percent.toString().concat('%')
     }
 
 
@@ -164,7 +164,7 @@ for (const stock of stockData) {
         // mock data between 40 millions and 100 millions
         const min = 40000000;
         const max = 100000000;
-        stockObj.marketCap = Math.floor(Math.random() * (max - min + 1)) + min;
+        stockObj.marketCap = Math.floor(Math.random() * (max - min + 1)) + min; 
       }
     }
 
@@ -176,7 +176,7 @@ for (const stock of stockData) {
     //Hello World
     let per = Math.random()*2 -1;
     let vol = priceDataRealTime*per;
-    stockObj.volume24h = vol? vol : "N/A";
+    stockObj.volume24h = vol? vol : "N/A"; //stringify 
   } catch (error) {
     console.error("Error fetching stock data:", error);
   }
