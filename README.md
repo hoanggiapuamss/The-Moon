@@ -43,5 +43,5 @@ Navigate into the project directory:
 
 # Run Project Server
 npm start
-
+then go to http://localhost:3000
 
